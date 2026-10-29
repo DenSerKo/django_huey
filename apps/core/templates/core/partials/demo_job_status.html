@@ -1,0 +1,40 @@
+<div
+    id="job-status"
+    {% if job.status == "pending" or job.status == "running" %}
+        hx-get="{% url 'core:demo_job_status' job.id %}"
+        hx-trigger="every 2s"
+        hx-swap="outerHTML"
+    {% endif %}
+>
+    {% if job.status == "pending" %}
+        <p>Задание принято. Ожидаем выполнения...</p>
+
+    {% elif job.status == "running" %}
+        <p>Задача выполняется...</p>
+
+        <div
+            role="progressbar"
+            aria-label="Прогресс выполнения задачи"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="{{ job.progress }}"
+            style="background: #e5e7eb; height: 2px; border-radius: 6px; overflow: hidden;"
+        >
+            <div
+                style="width: {{ job.progress }}%; height: 100%; background: #16a34a; transition: width 0.3s;"
+            ></div>
+        </div>
+
+        <p>{{ job.progress }}% выполнено</p>
+
+    {% elif job.status == "success" %}
+        <h2>Готово!</h2>
+
+        <p>{{ job.result }}</p>
+
+    {% elif job.status == "failed" %}
+        <h2>Произошла ошибка</h2>
+
+        <p>{{ job.error }}</p>
+    {% endif %}
+</div>

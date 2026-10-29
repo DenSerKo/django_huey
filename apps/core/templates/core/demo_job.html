@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block main %}
+	<h1>Длительная задача</h1>
+
+    {% if job %}
+        {% include "core/partials/demo_job_status.html" %}
+    {% else %}
+        <form
+            hx-post="{% url 'core:start_demo_job' %}"
+            hx-target="#job-result"
+            hx-swap="innerHTML"
+        >
+            {% csrf_token %}
+            <button type="submit">Запустить задачу</button>
+        </form>
+
+        <div id="job-result"></div>
+    {% endif %}
+{% endblock %}

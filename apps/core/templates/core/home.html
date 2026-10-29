@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+	huey
+{% endblock %}
+{% block main %}
+	<h1>Home</h1>
+    <a href="{% url 'core:enqueue_test_notification' %}">add Huey task</a>
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+    <div x-data="fetcher">
+        <div style="display: flex">
+            <button @click="count++">+</button>
+            <button @click="if (count > 1) count--">-</button>
+        </div>
+        <button
+                id="fetch-button"
+                x-text="'fetch ' + count"
+                @click="fetchData()"
+        ></button>
+        <p x-text="person.name"></p>
+    </div>
+{% endblock %}
